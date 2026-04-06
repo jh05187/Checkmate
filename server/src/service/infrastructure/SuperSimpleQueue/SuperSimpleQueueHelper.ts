@@ -440,8 +440,8 @@ export class SuperSimpleQueueHelper implements ISuperSimpleQueueHelper {
 
 				// Get all monitors with escalations configured
 				const monitors = await this.monitorsRepository.findAll();
-				const monitorsWithEscalations = (monitors || []).filter(monitor => monitor.escalations && monitor.escalations.length > 0);
-				
+				const monitorsWithEscalations = (monitors || []).filter((monitor) => monitor.escalations && monitor.escalations.length > 0);
+
 				for (const monitor of monitorsWithEscalations) {
 					await this.checkAndTriggerEscalation(monitor);
 				}

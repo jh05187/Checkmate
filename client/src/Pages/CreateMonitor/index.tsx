@@ -765,6 +765,88 @@ const CreateMonitorPage = () => {
 				}
 			/>
 
+			<ConfigBox
+				title="Escalation Rules"
+				subtitle="Configure escalation notifications for unacknowledged incidents"
+				rightContent={
+					<Controller
+						name="escalations"
+						control={control}
+						render={({ field }) => {
+							const escalationRules = field.value ?? [];
+							return (
+								<Stack spacing={theme.spacing(LAYOUT.MD)}>
+									{escalationRules.map((escalation: { delayMinutes: number; channelId: string }, index: number) => (
+										<Stack
+											key={index}
+											direction="row"
+											alignItems="center"
+											spacing={theme.spacing(SPACING.MD)}
+										>
+											<TextField
+												type="number"
+												fieldLabel="Delay (minutes)"
+												value={escalation.delayMinutes}
+												onChange={(e) => {
+													const newEscalations = [...escalationRules];
+													newEscalations[index] = {
+														...newEscalations[index],
+														delayMinutes: parseInt(e.target.value) || 0,
+													};
+													field.onChange(newEscalations);
+												}}
+												size="small"
+												sx={{ width: 120 }}
+											/>
+											<Select
+												fieldLabel="Channel"
+												value={escalation.channelId}
+												onChange={(e) => {
+													const newEscalations = [...escalationRules];
+													newEscalations[index] = {
+														...newEscalations[index],
+														channelId: e.target.value,
+													};
+													field.onChange(newEscalations);
+												}}
+												size="small"
+												sx={{ minWidth: 200 }}
+											>
+												{notifications?.map((notification) => (
+													<MenuItem key={notification.id} value={notification.id}>
+														{notification.notificationName}
+													</MenuItem>
+												))}
+											</Select>
+											<IconButton
+												size="small"
+												onClick={() => {
+													const newEscalations = escalationRules.filter((_, i) => i !== index);
+													field.onChange(newEscalations);
+												}}
+												aria-label="Remove escalation rule"
+											>
+												<Trash2 size={16} />
+											</IconButton>
+										</Stack>
+									))}
+									<Button
+										variant="outlined"
+										size="small"
+										onClick={() => {
+											const newEscalations = [...escalationRules, { delayMinutes: 30, channelId: notifications?.[0]?.id || "" }];
+											field.onChange(newEscalations);
+										}}
+									>
+										Add Escalation Rule
+									</Button>
+								</Stack>
+							);
+						}}
+					/>
+				}
+			/>
+
 			{(watchedType === "http" ||
 				watchedType === "grpc" ||
 				watchedType === "websocket") && (

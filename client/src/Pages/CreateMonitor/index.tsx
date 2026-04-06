@@ -766,8 +766,8 @@ const CreateMonitorPage = () => {
 			/>
 
 			<ConfigBox
-				title="Escalation Rules"
-				subtitle="Configure escalation notifications for unacknowledged incidents"
+				title={t("pages.createMonitor.form.escalation.title")}
+				subtitle={t("pages.createMonitor.form.escalation.description")}
 				rightContent={
 					<Controller
 						name="escalations"
@@ -785,7 +785,7 @@ const CreateMonitorPage = () => {
 										>
 											<TextField
 												type="number"
-												fieldLabel="Delay (minutes)"
+												fieldLabel={t("pages.createMonitor.form.escalation.option.delay.label")}
 												value={escalation.delayMinutes}
 												onChange={(e) => {
 													const newEscalations = [...escalationRules];
@@ -799,7 +799,7 @@ const CreateMonitorPage = () => {
 												sx={{ width: 120 }}
 											/>
 											<Select
-												fieldLabel="Channel"
+												fieldLabel={t("pages.createMonitor.form.escalation.option.channel.label")}
 												value={escalation.channelId}
 												onChange={(e) => {
 													const newEscalations = [...escalationRules];
@@ -824,7 +824,7 @@ const CreateMonitorPage = () => {
 													const newEscalations = escalationRules.filter((_, i) => i !== index);
 													field.onChange(newEscalations);
 												}}
-												aria-label="Remove escalation rule"
+												aria-label={t("pages.createMonitor.form.escalation.option.remove.ariaLabel")}
 											>
 												<Trash2 size={16} />
 											</IconButton>
@@ -838,7 +838,7 @@ const CreateMonitorPage = () => {
 											field.onChange(newEscalations);
 										}}
 									>
-										Add Escalation Rule
+										{t("pages.createMonitor.form.escalation.option.add")}
 									</Button>
 								</Stack>
 							);
